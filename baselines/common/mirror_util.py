@@ -1,5 +1,7 @@
 import tensorflow as tf
 import numpy as np
+
+
 def mirror_modify(mirror_original, game = None):
     if game =='Pong':
         return mirror_modify

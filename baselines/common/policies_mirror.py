@@ -46,9 +46,9 @@ class PolicyWithValue(object):
         mirrorlatent = tf.layers.flatten(mirrorlatent)
         mirror_vf_latent = tf.layers.flatten(mirror_vf_latent)
         
-        latent_all = tf.concat([latent,mirrorlatent],axis=0)
+        latent_all = tf.concat([latent,mirrorlatent], axis=0)
         
-        vf_latent_all = tf.concat([vf_latent,mirror_vf_latent],axis=0)
+        vf_latent_all = tf.concat([vf_latent,mirror_vf_latent], axis=0)
         # Based on the action space, will select what probability distribution type
         self.pdtype = make_pdtype(env.action_space)
         
@@ -61,7 +61,7 @@ class PolicyWithValue(object):
         pi_origin = tf.nn.softmax(self.pi)
         pi_mirror = tf.nn.softmax(pi_mirror)
         # policy mirror loss
-        self.policy_mirrorloss = tf.reduce_mean(tf.square(pi_origin - pi_mirror),1)
+        self.policy_mirrorloss = tf.reduce_mean(tf.square(pi_origin - pi_mirror), 1)
         # Calculate the neg log of our probability
         self.neglogp = self.pd.neglogp(self.action)
         self.sess = sess or tf.get_default_session()
@@ -144,7 +144,7 @@ def build_mirror_policy(env, policy_network, value_network=None,  normalize_obse
 
         X = observ_placeholder if observ_placeholder is not None else observation_placeholder(ob_space, batch_size=nbatch)
         # mirror
-        X_mirror = tf.reverse(X,axis=[2])
+        X_mirror = tf.reverse(X, axis=[2])
         extra_tensors = {}
         if normalize_observations and X.dtype == tf.float32:
             encoded_x, rms = _normalize_clip_observation(X)
@@ -171,7 +171,7 @@ def build_mirror_policy(env, policy_network, value_network=None,  normalize_obse
                     nenv = nbatch // nsteps
                     assert nenv > 0, 'Bad input for recurrent policy: batch size {} smaller than nsteps {}'.format(nbatch, nsteps)
                     policy_latent, recurrent_tensors = policy_network(encoded_x, nenv)
-                    policy_latent_mirror,recurrent_tensors_mirror = policy_network(encoded_x_mirror,nenv)
+                    policy_latent_mirror, recurrent_tensors_mirror = policy_network(encoded_x_mirror,nenv)
                     extra_tensors.update(recurrent_tensors)
 
 
@@ -193,7 +193,7 @@ def build_mirror_policy(env, policy_network, value_network=None,  normalize_obse
             env=env,
             observations=X,
             latent=policy_latent,
-            mirrorlatent = policy_latent_mirror,
+            mirrorlatent=policy_latent_mirror,
             vf_latent=vf_latent,
             sess=sess,
             estimate_q=estimate_q,

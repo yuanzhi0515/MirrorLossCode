@@ -450,7 +450,6 @@ def build_train(make_obs_ph, q_func, num_actions, optimizer, grad_norm_clipping=
                 done_mask_ph,
                 importance_weights_ph
             ],
-            # outputs=[td_error, weighted_error_, mirror_loss, tf.reduce_mean(errors)],
             outputs=td_error,
             updates=[optimize_expr]
         )
